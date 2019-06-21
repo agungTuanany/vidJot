@@ -4,9 +4,17 @@ const exphbs = require('express-handlebars');
 
 const app = express();
 
+// handling static folder for add bootstrap
+app.use(express.static('public'));
+
 // Handlebars Middleware
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
+app.engine('hbs', exphbs({
+  extname: 'hbs',
+  defaultLayout: 'main',
+  layoutsDir: __dirname + '/views/layouts',
+  partialsDir: __dirname + '/views/partials'
+}));
+app.set('view engine', 'hbs');
 
 // Index Route
 app.get('/', (req, res) => {
