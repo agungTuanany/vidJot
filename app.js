@@ -4,12 +4,24 @@ const app = express();
 const port = 5000;
 
 /*
-basic route in express have a method 'get' and 'post'. in every method have a callback function (handler functions)
+  Middleware usually use for authentication password.
 */
+// How middleware works
+app.use(function(req, res, next) {
+  //console.log(Date.now());
+  req.name = 'Agung Tuanany';
+  next();
+  // example of loading a series of middleware
+},function(req, res, next) {
+  console.log('Request URL: will return', req.originalUrl);
+  next();
+});
 
 // Index Route
 app.get('/', (req, res) => {
-  res.send('INDEX');
+  console.log(req.name);
+  //res.send('INDEX');
+  res.send(req.name);
 });
 
 // About Route
