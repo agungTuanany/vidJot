@@ -1,5 +1,6 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -16,6 +17,10 @@ app.use(express.static('public'));
 
 app.use('*/js',express.static(path.join(__dirname, 'public/js')));
 app.use('*/css',express.static(path.join(__dirname, 'public/css')));
+
+// body-parser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // Handlebars Middleware
 app.engine('hbs', exphbs({
@@ -41,7 +46,7 @@ app.get('/about', (req, res) => {
   res.render('about', {
     title,
   });
-})
+});
 
 // Add Details Router
 app.get('/ideas/add', (req, res) => {
@@ -49,6 +54,33 @@ app.get('/ideas/add', (req, res) => {
   res.render('ideas/add', {
   title,
   });
+});
+
+app.post('/ideas', (req, res) => {
+  const title = 'ideas';
+  // server-side validation
+  let errors = [];
+
+  if(!req.body.titleForm) {
+    errors.push({ text: 'require title'});
+  }
+
+  if(!req.body.detailsForm) {
+    errors.push({ text: 'require details' });
+  }
+
+  if(errors.length > 0) {
+    res.render('ideas/add', {
+      errors,
+      titleForm: req.body.titleForm,
+      detailsForm: req.body.detailsForm,
+      title
+    });
+  } else {
+    res.send('passed');
+  }
+  console.log(req.body)
+
 });
 
 
