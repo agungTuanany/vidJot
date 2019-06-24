@@ -145,8 +145,18 @@ app.put('/ideas/:id', (req, res) => {
           res.redirect('/ideas'),
           title
         });
-    })
+    });
+});
 
+// Delete Idea
+app.delete('/ideas/:id', (req, res) => {
+  // delete from database
+  Idea.remove({
+    _id: req.params.id
+  })
+    .then(() => {
+      res.redirect('/ideas');
+    })
 });
 
 
