@@ -52,6 +52,20 @@ app.get('/about', (req, res) => {
   });
 });
 
+// Idea Index Page
+app .get('/ideas', (req, res) => {
+  const title = 'ideas';
+  // fecth ideas from databases
+  Idea.find({})
+    .sort({ date: 'desc' })
+    .then(ideas => {
+      res.render('ideas/index', {
+        ideas,
+        title
+      });
+  });
+});
+
 // Add Details Router
 app.get('/ideas/add', (req, res) => {
   const title = 'ideas-add';
@@ -60,6 +74,7 @@ app.get('/ideas/add', (req, res) => {
   });
 });
 
+// Process Form
 app.post('/ideas', (req, res) => {
   const title = 'ideas';
   // server-side validation
@@ -92,7 +107,7 @@ app.post('/ideas', (req, res) => {
         res.redirect('/ideas');
       });
   }
-  console.log(req.body)
+  console.log(req.body);
 });
 
 
