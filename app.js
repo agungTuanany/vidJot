@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const path = require('path');
 
@@ -25,6 +26,9 @@ app.use('*/css',express.static(path.join(__dirname, 'public/css')));
 // body-parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// method-override middleware
+app.use(methodOverride('_method'));
 
 // Handlebars Middleware
 app.engine('hbs', exphbs({
@@ -123,6 +127,26 @@ app.post('/ideas', (req, res) => {
       });
   }
   console.log(req.body);
+});
+
+// Edit Form process
+app.put('/ideas/:id', (req, res) => {
+  const title = 'edit idea';
+  Idea.findOne({
+    _id: req.params.id
+  })
+    .then(idea => {
+      // new values
+      idea.titleForm = req.body.titleForm;
+      idea.detailsForm = req.body.detailsForm;
+
+      idea.save()
+        .then(idea => {
+          res.redirect('/ideas'),
+          title
+        });
+    })
+
 });
 
 
