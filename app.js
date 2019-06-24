@@ -11,6 +11,10 @@ mongoose.connect('mongodb://localhost:127.0.0.1/vidjot-dev', {useNewUrlParser: t
   .then(() => console.log(`MongoDB connected`))
   .catch(err => console.log(err));
 
+// load Idea Model
+require('./models/Idea');
+const Idea = mongoose.model('ideas');
+
 
 // handling static folder for add bootstrap
 app.use(express.static('public'));
@@ -77,10 +81,18 @@ app.post('/ideas', (req, res) => {
       title
     });
   } else {
-    res.send('passed');
+    // saving idea to mongodb
+    const newUser = {
+      titleForm: req.body.titleForm,
+      detailsForm: req.body.detailsForm
+    }
+    new Idea(newUser)
+      .save()
+      .then(idea => {
+        res.redirect('/ideas');
+      });
   }
   console.log(req.body)
-
 });
 
 

@@ -6,11 +6,11 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const IdeaSchema = new Schema({
-  title: {
+  titleForm: {
     type: String,
     required: true
   },
-  details: {
+  detailsForm: {
     type: String,
     required: true
   },
