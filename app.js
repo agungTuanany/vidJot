@@ -52,7 +52,7 @@ app.get('/about', (req, res) => {
   });
 });
 
-// Idea Index Page
+// Idea Index Page Route
 app .get('/ideas', (req, res) => {
   const title = 'ideas';
   // fecth ideas from databases
@@ -66,12 +66,27 @@ app .get('/ideas', (req, res) => {
   });
 });
 
-// Add Details Router
+// Add idea form
 app.get('/ideas/add', (req, res) => {
   const title = 'ideas-add';
   res.render('ideas/add', {
   title,
   });
+});
+
+// Edit Idea form
+app.get('/ideas/edit/:id', (req, res) => {
+  const title ='ideas-edit';
+  // render id
+  Idea.findOne({
+    _id: req.params.id
+  })
+    .then(idea => {
+      res.render('ideas/edit', {
+        title,
+        idea
+      });
+    })
 });
 
 // Process Form
