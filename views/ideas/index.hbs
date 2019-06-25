@@ -7,10 +7,11 @@
     <form method='post' action='/ideas/{{id}}?_method=DELETE'>
       <input type='hidden' name='_method' value='DELETE'>
       <input type='submit' class='btn btn-danger btn-block' value='Delete'>
-
     </form>
   </div>
 
 {{else}}
+
   <h4 class='d-flex justify-content-center mt-2 font-weight-bolder'>No video ideas listed</h4>
+
 {{/each}}

@@ -46,9 +46,9 @@ router.post('/login', (req, res) => {
   console.log(req.body);
 });
 
-// Login Process Form
+// Register Process Form POST
 router.post('/register', (req, res) => {
-  const title = 'users';
+  const title = 'register';
 
   // server side rendering
   let errors = [];
@@ -58,15 +58,15 @@ router.post('/register', (req, res) => {
   }
 
   if(!req.body.email) {
-    errors.push({ text: 'require a proper email'});
+    errors.push({ text: 'require a proper email' });
   }
 
-  if(!req.body.password) {
-    errors.push({ text: 'password need to be 6 character' });
-  }
-
-  if(!req.body.password) {
+  if(req.body.password != req.body.password2) {
     errors.push({ text: 'password not match' });
+  }
+
+  if(req.body.password.length <= 6) {
+    errors.push({ text: 'password need to be 6 character' });
   }
 
   if(errors.length > 0) {
@@ -82,6 +82,7 @@ router.post('/register', (req, res) => {
     res.send('passed');
   }
   console.log(req.body);
+  console.log(errors);
 });
 
 module.exports = router;

@@ -1,12 +1,9 @@
-{{#each errors}}
-  <div class='alert alert-danger mt-2 mb-0'>{{ text }}</div>
-{{/each}}
 <div class='card card-body my-5'>
   <h3 class='text-capitalize'>videos idea</h3>
   <form action='/ideas' method='post'>
     <div class='form-group'>
       <label for='titleForm' class='text-capitalize'>title</label>
-      <input type='text' class='form-control' name='titleForm'>
+      <input type='text' class='form-control' name='titleForm' value='{{titleForm}}'>
     </div>
     <div class='form-group'>
       <label for='detailsForm' class='text-capitalize'>details</label>
