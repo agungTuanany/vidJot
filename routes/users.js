@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 // Load User Model
 require('../models/User');
@@ -23,8 +24,8 @@ router.get('/register', (req, res) => {
   });
 });
 
-// Login Process Form
-router.post('/login', (req, res) => {
+// Login Process Form POST
+router.post('/login', (req, res, next) => {
   const title = 'users';
 
   // server side rendering
@@ -46,9 +47,14 @@ router.post('/login', (req, res) => {
       title
     });
   } else {
-    res.send('passed');
+    //res.send('passed');
+    passport.authenticate('local', {
+      successRedirect:'/ideas',
+      failureRedirect:'/users/login',
+      failureFlash: true
+    })(req, res, next);
   }
-  console.log(req.body);
+  console.log('your users account login',req.body);
 });
 
 // Register Process Form POST
