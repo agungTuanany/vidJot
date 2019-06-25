@@ -35,7 +35,7 @@ app.use(methodOverride('_method'));
 // express-session middleware
 app.use(session({
   secret: 'secret',
-  resave: false,
+  resave: true,
   saveUninitialized: true,
 }));
 
