@@ -43,6 +43,11 @@ app.use(session({
   saveUninitialized: true,
 }));
 
+// !!IMPORTANT ISSUE
+// Passport middleware | write it after express-session middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // connect-flash middleware
 app.use(flash());
 
@@ -52,6 +57,8 @@ app.use(function(req, res, next) {
   res.locals.error_msg = req.flash('error_msg');
   // for using password or user not found
   res.locals.error = req.flash('error');
+  // for users have login will not show login amd register nav
+  res.locals.user = req.user || null;
   next();
 });
 
@@ -69,7 +76,9 @@ app.set('view engine', 'hbs');
 app.get('/', (req, res) => {
   const title = 'home';
   // Handlebars change 'send' response to 'render'
-  res.render('index');
+  res.render('index', {
+    title
+  });
 });
 
 // About Route
