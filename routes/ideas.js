@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-
+const { ensureAuthenticated } = require('../helper/auth');
 
 // load Idea Model
 require('../models/Idea');
 const Idea = mongoose.model('ideas');
 
 // Idea Index Page Route
-router.get('/', (req, res) => {
+router.get('/', ensureAuthenticated, (req, res) => {
   const title = 'ideas';
   // fecth ideas from databases
   Idea.find({})
@@ -22,7 +22,7 @@ router.get('/', (req, res) => {
 });
 
 // Add idea form
-router.get('/add', (req, res) => {
+router.get('/add', ensureAuthenticated, (req, res) => {
   const title = 'ideas-add';
   res.render('ideas/add', {
   title,
@@ -30,7 +30,7 @@ router.get('/add', (req, res) => {
 });
 
 // Edit Idea form
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, (req, res) => {
   const title ='ideas-edit';
   // render id
   Idea.findOne({
@@ -45,7 +45,7 @@ router.get('/edit/:id', (req, res) => {
 });
 
 // Process Form
-router.post('/', (req, res) => {
+router.post('/', ensureAuthenticated, (req, res) => {
   const title = 'ideas';
   // server-side validation
   let errors = [];
@@ -82,7 +82,7 @@ router.post('/', (req, res) => {
 });
 
 // Edit Form process
-router.put('/:id', (req, res) => {
+router.put('/:id', ensureAuthenticated, (req, res) => {
   const title = 'edit idea';
   Idea.findOne({
     _id: req.params.id
@@ -102,7 +102,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete Idea
-router.delete('/:id', (req, res) => {
+router.delete('/:id', ensureAuthenticated, (req, res) => {
   // delete from database
   Idea.remove({
     _id: req.params.id
