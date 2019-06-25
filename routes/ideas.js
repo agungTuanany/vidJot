@@ -10,8 +10,8 @@ const Idea = mongoose.model('ideas');
 // Idea Index Page Route
 router.get('/', ensureAuthenticated, (req, res) => {
   const title = 'ideas';
-  // fecth ideas from databases
-  Idea.find({})
+  // fecth ideas from databases | matching idea with login user-id
+  Idea.find({user: req.user.id})
     .sort({ date: 'desc' })
     .then(ideas => {
       res.render('ideas/index', {
@@ -37,11 +37,16 @@ router.get('/edit/:id', ensureAuthenticated, (req, res) => {
     _id: req.params.id
   })
     .then(idea => {
-      res.render('ideas/edit', {
-        title,
-        idea
-      });
-    })
+      if(idea.user != req.user.id) {
+        req.flash('error_msg', 'You are not an Authorized');
+        res.redirect('/ideas');
+      } else {
+        res.render('ideas/edit', {
+          title,
+          idea
+        });
+      };
+    });
 });
 
 // Process Form
@@ -69,7 +74,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
     // saving idea to mongodb
     const newUser = {
       titleForm: req.body.titleForm,
-      detailsForm: req.body.detailsForm
+      detailsForm: req.body.detailsForm,
+      user: req.user.id
     }
     new Idea(newUser)
       .save()
