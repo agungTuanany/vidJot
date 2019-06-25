@@ -19,10 +19,11 @@ mongoose.connect('mongodb://localhost:127.0.0.1/vidjot-dev', {useNewUrlParser: t
   .catch(err => console.log(err));
 
 // handling static folder for add bootstrap
-app.use(express.static('public'));
+//app.use(express.static(path.join(__dirname, 'public/*')));
 
 app.use('*/js',express.static(path.join(__dirname, 'public/js')));
 app.use('*/css',express.static(path.join(__dirname, 'public/css')));
+app.use('*/img',express.static(path.join(__dirname, 'public/img')));
 
 // body-parser middleware
 app.use(bodyParser.json());

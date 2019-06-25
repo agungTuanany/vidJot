@@ -1,0 +1,26 @@
+{{#each errors}}
+  <div class='alert alert-danger mt-3 mb-0'>{{ text }}</div>
+{{else}}
+
+{{/each}}
+<div class='container mt-3'>
+  <div class=row>
+    <div class='col-md-6 mx-auto'>
+      <div class='card card-body'>
+        <img class='users__logo' src='/img/logo.png' alt='logo'>
+        <h3 class='text-center text-capitalize'>account login</h3>
+        <form action='/users/login' method='post'>
+          <div class='form-group text-capitalize'>
+            <label for='email'>email</label>
+            <input type='email' class='form-control' name='email' required>
+          </div>
+          <div class='form-group text-capitalize'>
+            <label for='password'>password</label>
+            <input type='password' class='form-control' name='password' required>
+          </div>
+          <button type='submit' class='btn btn-primary'>submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
