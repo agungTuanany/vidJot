@@ -88,3 +88,6 @@ vuepress/dist
  # DynamoDB Local files
 .dynamodb/
 
+# config local files
+dev.js
+
