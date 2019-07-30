@@ -51,6 +51,7 @@ yarn dev
 * Node.js
 * Express
 * MongoDB | Using mlab
+* Heroku
 
 ## plugin
 
